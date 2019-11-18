@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>微信运动刷步数-免费在线一键刷步，安全稳定</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+<meta name="description" content="2019年最新在线免费刷微信运动步数，刷步数，微信运动，在线免费刷，一键刷步，安全稳定" />
+<meta name="keywords" content="2019年最新在线免费刷微信运动步数，刷步数，微信运动，在线免费刷，一键刷步，安全稳定" />
+<link rel="stylesheet" href="https://cdn.bootcss.com/weui/1.1.3/style/weui.min.css"/>
+<link rel="stylesheet" href="https://cdn.bootcss.com/jquery-weui/1.2.1/css/jquery-weui.min.css"/>
+<script src="https://cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/jquery-weui/1.2.1/js/jquery-weui.min.js"></script>
+</head>
+<style>
+    body {
+        background-color: #fbf9fe;
+    }
+
+    .weui_msg {
+        text-align: center;
+        margin-top: 50px;
+        margin-bottom: 50px;
+    }
+
+    .page_title {
+        text-align: center;
+        font-size: 34px;
+        font-weight: 400;
+        color: #3cc51f;
+    }
+</style>
+<body>
+    <div class="page_header">
+        <div class="weui_msg">
+            <i class="weui-icon_msg weui-icon-safe-success"></i>
+            <h2 class="page_title">小豪微信运动刷步</h2>
+        </div>
+        <form class="weui-cells weui-cells_form" style="margin-left: 10px; margin-right: 10px; border-radius: 8px;">
+            <div class="weui-cell" style="background-color: #fbf9fe;">
+                <div class="weui-cell__hd">
+                    <label class="weui-label" style="width: 70px;">账号</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" placeholder="请输入账号" name="zyid" id="zyjkids"/>
+                </div>
+            </div>
+            <div class="weui-cell" style="background-color: #fbf9fe;">
+                <div class="weui-cell__hd">
+                    <label class="weui-label" style="width: 70px;">步数</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" type="number" pattern="[0-9]*" placeholder="请输入刷的步数" name="steps" id="zysteps"/>
+                </div>
+            </div>
+        </form>
+        <div style="margin-left: 10px; margin-right: 10px;">
+            <button class="weui-btn weui-btn_primary" style="margin-top: 10px;" id="updateButton">提交</button>
+        </div>
+
+
+    </div>
+    <script>
+        $(document).ready(function () {
+            $.toast.prototype.defaults.duration = 1500;
+            $("#updateButton").click(function (e) {
+                var obj = $(this);
+                var zyid = $("input[name='zyid']").val();
+                var steps = $("input[name='steps']").val();
+                if (zyid.length < 1 || steps.length < 1) {
+                    $.toast("输入信息不完整", "cancel");
+                    return;
+                }
+                $("#updateButton").attr("disabled", true);
+                $("#updateButton").text("正在提交....");
+                $.ajax({
+                    url: "https://api.zhihao1.cn/api/index/weixin",
+                    type: "POST",
+//                  'Content-Type':'application/json; charset=utf-8',
+                    contentType: "application/x-www-form-urlencoded",
+                    data: "account=" + zyid + "&step=" + steps,
+                    success: function (result) {
+                    	console.log(result);
+                        if (result.code == 0) {
+                            $.alert(result.messsage);
+                        }else {
+							$.alert(result.messsage,"错误"); 
+						}
+                    },
+                    error: function (msg) {
+                        console.log(msg)
+                    },
+                    complete:function(){
+                        $("#updateButton").attr("disabled", false);
+                        $("#updateButton").text("提交")
+                    }
+                })
+                
+            })
+        });
+    </script>
+</body>
+</html>
